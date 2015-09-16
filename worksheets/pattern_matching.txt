@@ -1,0 +1,12 @@
+import com.typesafe.training.scalatrain._
+
+def whichTrain(any: Any): String = {
+  any match {
+    case InterCityExpress(number, hasWifi) => "This is an ICE"
+    case RegionalExpress(number) => "This is an RE"
+    case _ => "This is not a train"
+  }
+}
+
+// 1. Show pattern matching
+// 2. Pass in a TrainInfo and show compiler warning after removing wildcard case (BavarianRegional is missing)

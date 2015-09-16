@@ -1,0 +1,16 @@
+class Animal {
+  override def toString: String = "Animal"
+}
+
+class Fish extends Animal {
+  override def toString: String = "Fish"
+}
+
+class Bird extends Animal {
+  override def toString: String = "Bird"
+}
+
+
+class Duck extends Fish, Bird {
+  override def toString = super.toString
+}

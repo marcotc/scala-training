@@ -1,0 +1,39 @@
+object DB {
+  val names = Vector("Markus", "Nilanjan", "Duncan")
+
+  def getName(name: String): Option[String] =
+    names.find(_ == name)
+
+  val emails = Vector("markus@typesafe.com", "nilanjan@typesafe.com", "duncan@typesafe.com")
+
+  def getEmail(name: String): Option[String] =
+    emails.find(_ contains name.toLowerCase)
+}
+
+
+
+// Sample with null checks
+val name = DB.getName("Nilanjan")
+if(name.isDefined) { // != null
+val email = DB.getEmail(name.get)
+  if(email.isDefined) { // != null
+    s"Email of ${name.get} is ${email.get}"
+  }
+}
+
+
+
+
+
+
+
+
+
+
+// Sample with for comprehension
+for {
+  name <- DB.getName("Nilanjan")
+  email <- DB.getEmail(name)
+} yield(s"Email of $name is $email")
+
+// How to handle the default case?

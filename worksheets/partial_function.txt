@@ -1,0 +1,32 @@
+// http://blog.bruchez.name/2011/10/scala-partial-functions-without-phd.html
+
+// This crashes
+List(41, "cat") map { case i: Int ⇒ i + 1 }
+
+// This doesnt crash
+List(41, "cat") collect { case i: Int ⇒ i + 1 }
+
+// Function always yields a result
+def inc(i: Int) = i + 1
+
+// Function only returns a result sometimes. fraction(0) throws exception
+def fraction(d: Int) = 42 / d
+
+// Fraction as partial function
+val fraction = new PartialFunction[Int, Int] {
+    def apply(d: Int) = 42 / d
+    def isDefinedAt(d: Int) = d != 0
+}
+
+// OR
+val fraction: PartialFunction[Int, Int] = { 
+  case d: Int if d != 0 => 42 / d 
+}
+
+// Also works for different types
+val incAny: PartialFunction[Any, Int] = { 
+  case i: Int ⇒ i + 1 
+}
+
+// collect calls isDefinedAt and filters out the elements which can not be applied
+List(41, "cat") collect incAny

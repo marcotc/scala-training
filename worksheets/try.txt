@@ -1,0 +1,9 @@
+import scala.util.Try
+
+// Define divideBy method
+
+// Call divideBy 4,2
+
+// Call divideBy 5,0
+
+// Try composition

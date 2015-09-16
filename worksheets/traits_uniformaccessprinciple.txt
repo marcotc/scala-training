@@ -1,0 +1,9 @@
+import scala.util.Random
+
+class Number {
+  def next: Int = Random.nextInt()
+}
+
+class NumberOptimization extends Number {
+  override val next: Int = Random.nextInt()
+}

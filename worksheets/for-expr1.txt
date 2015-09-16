@@ -1,0 +1,63 @@
+import scala.collection.mutable.MutableList
+
+case class Postcard(msg: String)
+object Postcard {
+  val cities = List("London", "New York", "Berlin", "San Francisco")
+  val relatives = List("Mom", "Grandma", "Daughter")
+  val travellers = List("James", "Rich", "Will", "Mirco")
+
+  def createMsg(recipient: String, city: String, sender: String) =
+    s"Dear $recipient," +
+      s"Wish you were here in $city!" +
+      s"Love, $sender"
+
+  def sendPostcards: List[Postcard] = {
+    var postcardList: scala.collection.mutable.MutableList[Postcard] = MutableList.empty
+    for (t <- 0 until travellers.size) {
+      val sender = travellers(t)
+
+      for (r <- 0 until relatives.size) {
+        val recipient = relatives(r)
+
+        for (c <- 0 until cities.size) {
+          val city = cities(c)
+          postcardList += Postcard(createMsg(recipient, city, sender))
+        }
+      }
+    }
+
+    postcardList.toList
+  }
+
+  // Print to console
+  sendPostcards.foreach(msg => println(msg))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//def sendPostcards2 = {
+//  for {
+//    sender <- travellers
+//    recipient <- relatives
+//    city <- cities
+//  } yield Postcard(createMsg(recipient, city, sender))
+//}

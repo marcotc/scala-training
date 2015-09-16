@@ -1,0 +1,8 @@
+object DoubleOps {
+  implicit def doubleToString(d: Double): String = d.toString
+}
+
+val double: Double = 2.0
+
+//import DoubleOps._
+val doubleAsString: String = 2.0

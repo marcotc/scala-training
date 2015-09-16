@@ -1,0 +1,15 @@
+class Actor {
+  implicit val self: ActorRef = context.self
+}
+
+class ActorRef {
+  def !(message: Any)(implicit sender: ActorRef = Actor.noSender): Unit
+}
+
+object Test {
+  val myActor: ActorRef = ...
+  myActor ! "Some message"
+
+  // Java
+  myActor.tell("Some message", contect.getSelf());	
+}

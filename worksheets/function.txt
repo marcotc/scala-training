@@ -1,0 +1,17 @@
+val numbers = Vector(1, 2, 3)
+
+def increaseOneMethod(number: Int): Int = number + 1
+
+val increaseOne: Function[Int, Int] = new Function1[Int, Int] {
+  def apply(number: Int): Int = number + 1
+}
+
+val increase: Int => Int =
+  (number: Int) => number + 1
+
+val increase: Int => Int =
+  number => number + 1
+
+val increasedNumbers1 = numbers.map(number => increase(number))
+
+val increasedNumbers2 = numbers.map(increase)

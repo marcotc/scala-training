@@ -1,0 +1,24 @@
+// The factorial of an natural number is defined recursively
+def factorial(n: Int): BigInt =
+  if (n == 0) 1 else n * factorial(n - 1)
+
+// Fine with low number
+factorial(4)
+
+// Stackoverflow exception with big number
+factorial(100000)
+
+// Use @tailrec to verify if an operation is tail recursive => compile error
+import scala.annotation.tailrec
+@tailrec def factorial(n: Int): BigInt =
+  if (n == 0) 1 else n * factorial(n - 1)
+
+// Introduce an accumulator to make factorial tail recursive
+@tailrec 
+def factorial(n: Int, acc: BigInt = 1): BigInt =
+  if (n == 0) acc else factorial(n - 1, n * acc)
+
+// This works now!
+factorial(100000) 
+
+// Java never optimizes recursion to tail operations 

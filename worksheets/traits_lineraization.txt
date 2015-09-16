@@ -1,0 +1,37 @@
+trait First {
+  def name: String = {
+    println("into first")
+    "first"
+  }
+}
+
+trait Second extends First {
+  override def name: String = {
+    println("into second")
+    "second"
+  }
+}
+
+trait Third {
+  def name: String = {
+    println("into third")
+	"third"
+  }
+}
+
+trait Fourth {
+  def name: String = {
+  println("into fourth")
+  "fourth"
+}
+
+class Example1 extends Second with Third with Fourth {
+  override def name: String = super.name
+}
+
+class Example2 extends Second with Third with First {
+  override def name: String = super.name
+}
+
+(new Example1).name
+(new Example2).name

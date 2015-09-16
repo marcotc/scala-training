@@ -1,0 +1,26 @@
+object StringOps {
+  implicit def blingOps(s: String): Bling = new Bling(s)
+
+  class Bling(s: String) {
+    def bling: String = "*" + s + "*"
+  }
+}
+
+// without import
+val blingString: String = StringOps.blingOps("Some string").bling
+// with import
+import StringOps._
+val s: String = "Some string".bling
+
+
+
+// implicit class
+object IntOps {
+  implicit class Ops(val i: Int) {
+    def isUnlimited: Boolean = i == -1
+  }
+}
+
+import IntOps._
+val number = -1
+val unlimited: Boolean = number.isUnlimited
