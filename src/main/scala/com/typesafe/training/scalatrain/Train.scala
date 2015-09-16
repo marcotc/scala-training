@@ -17,9 +17,18 @@ case class Train(info: TrainInfo, schedule: Seq[(Time, Station)]) {
   def timeAt(station: Station): Option[Time] =
     // Could also be expressed in notation: schedule find (_._2 == station) map (_._1)
     schedule.find(stop => stop._2 == station).map(found => found._1)
+
+  def hops: Seq[Hop] = {
+    val sorted = schedule.sortBy(_._1)
+    sorted.zip(sorted.drop(1)).map{
+      case ((_, station1), (_, station2)) => Hop(station1, station2, this)
+    }
+  }
 }
 
-case class Station(name: String)
+case class Station(name: String) {
+  override def toString(): String = name
+}
 
 sealed abstract class TrainInfo {
   def number: Int

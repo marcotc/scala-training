@@ -28,4 +28,20 @@ class JourneyPlanner(trains: Set[Train]) {
         case _                        => false
       }
     )
+
+  def hopsFromStations: Map[Station, Set[Hop]] = {
+    trains.flatMap(_.hops).groupBy(_.from)
+  }
+
+  def connection(station: Station, departureTime: Time): Set[Hop] = {
+    hopsFromStations.getOrElse(station, Nil).filter(_.departureTime >= departureTime).toSet
+  }
+
+  def pathsBetween(from: Station, to: Station, depatureTime: Time):  = {
+    connection(from, depatureTime)
+  }
+
+  def pathsBetweenHops(hop: Hop): Seq[Seq[Hop]] = {
+    connection(hop.to, hop.arrivalTime).map { h => pathsBetweenHops(h).map{ _.+:(hop)} }
+  }
 }

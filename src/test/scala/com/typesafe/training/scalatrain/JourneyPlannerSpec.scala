@@ -41,4 +41,10 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       planner.isShortTrip(nuremberg, essen) shouldBe true
     }
   }
+
+  "Calling hopsFromStations" should {
+    "return" in {
+      planner.hopsFromStations shouldBe true
+    }
+  }
 }
