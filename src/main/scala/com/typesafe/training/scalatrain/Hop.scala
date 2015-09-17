@@ -6,5 +6,5 @@ case class Hop(from: Station, to: Station, train: Train) {
 
   def arrivalTime: Time = train.timeAt(to).get
 
-  override def toString(): String = s"($from,$to)"
+  override def toString(): String = s"($from,$to,${train.info.number})"
 }

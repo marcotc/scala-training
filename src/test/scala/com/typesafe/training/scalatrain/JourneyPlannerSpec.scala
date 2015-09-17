@@ -47,4 +47,10 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       planner.hopsFromStations shouldBe true
     }
   }
+
+  "Calling paths" should {
+    "return" in {
+      planner.paths(frankfurt, munich, ice726MunichTime) shouldBe true
+    }
+  }
 }
