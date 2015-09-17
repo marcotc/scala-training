@@ -33,15 +33,30 @@ class JourneyPlanner(trains: Set[Train]) {
     trains.flatMap(_.hops).groupBy(_.from)
   }
 
-  def connection(station: Station, departureTime: Time): Set[Hop] = {
+  def connections(station: Station, departureTime: Time): Set[Hop] = {
     hopsFromStations.getOrElse(station, Nil).filter(_.departureTime >= departureTime).toSet
   }
 
-  def pathsBetween(from: Station, to: Station, depatureTime: Time):  = {
-    connection(from, depatureTime)
-  }
+//  def pathsBetween(from: Station, to: Station, depatureTime: Time):  = {
+//    connection(from, depatureTime)
+//  }
+//
+//  def pathsBetweenHops(hop: Hop): Seq[Seq[Hop]] = {
+//    connection(hop.to, hop.arrivalTime).map { h => pathsBetweenHops(h).map{ _.+:(hop)} }
+//  }
 
-  def pathsBetweenHops(hop: Hop): Seq[Seq[Hop]] = {
-    connection(hop.to, hop.arrivalTime).map { h => pathsBetweenHops(h).map{ _.+:(hop)} }
+  def paths(endStation: Station, start: Station, departureTime: Time): Set[Seq[Hop]] = {
+    connections(start, departureTime).flatMap { hop: Hop =>
+      hop match {
+        case Hop(from, `endStation`, _) => {
+          println(s"found end from:$from to:$endStation")
+          Set(Seq(hop)) :Set[Seq[Hop]]
+        }
+        case Hop(from, to, _) => {
+          println(s"from:$from to:$to")
+          paths(endStation, hop.to, hop.arrivalTime).map(_ ++ Seq(start)) :Set[Seq[Hop]]
+        }
+      }
+    }
   }
 }
