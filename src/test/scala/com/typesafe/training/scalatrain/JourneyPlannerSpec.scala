@@ -66,4 +66,18 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
         Set(List(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice726), Hop(frankfurt, essen, ice726)))
     }
   }
+
+  "Calling sortPathsByTime" should {
+    "return sorted paths" in {
+      JourneyPlanner.sortPathsByTime(Seq(
+        Seq(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice726), Hop(frankfurt, cologne, ice724)),
+        Seq(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724)),
+        Seq(Hop(munich, nuremberg, ice724), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724)))
+      ) shouldBe Seq(
+        Seq(Hop(munich, nuremberg, ice724), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724)),
+        Seq(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice726), Hop(frankfurt, cologne, ice724)),
+        Seq(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724))
+      )
+    }
+  }
 }

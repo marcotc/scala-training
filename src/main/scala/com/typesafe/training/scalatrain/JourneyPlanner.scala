@@ -54,3 +54,9 @@ class JourneyPlanner(trains: Set[Train]) {
     }
   }
 }
+
+object JourneyPlanner {
+  def sortPathsByTime(paths: Seq[Seq[Hop]]): Seq[Seq[Hop]] = {
+    paths.sortBy(x => x.last.arrivalTime - x.head.departureTime)
+  }
+}
