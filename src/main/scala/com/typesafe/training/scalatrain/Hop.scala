@@ -1,6 +1,6 @@
 package com.typesafe.training.scalatrain
 
-case class Hop(from: Station, to: Station, train: Train) {
+case class Hop(from: Station, to: Station, train: Train, cost: Int = 0) {
 
   def departureTime: Time = train.timeAt(from).get
 

@@ -48,8 +48,8 @@ class JourneyPlanner(trains: Set[Train]) {
   def paths(start: Station, endStation: Station, departureTime: Time): Set[Seq[Hop]] = {
     connections(start, departureTime).flatMap { hop: Hop =>
       hop match {
-        case Hop(from, `endStation`, _) => Set(Seq(hop))
-        case Hop(from, to, _) => paths(hop.to, endStation, hop.arrivalTime).map(Hop(hop.from,hop.to,hop.train) +: _)
+        case Hop(from, `endStation`, _, _) => Set(Seq(hop))
+        case Hop(from, to, _, _) => paths(hop.to, endStation, hop.arrivalTime).map(Hop(hop.from,hop.to,hop.train) +: _)
       }
     }
   }
@@ -58,5 +58,9 @@ class JourneyPlanner(trains: Set[Train]) {
 object JourneyPlanner {
   def sortPathsByTime(paths: Seq[Seq[Hop]]): Seq[Seq[Hop]] = {
     paths.sortBy(x => x.last.arrivalTime - x.head.departureTime)
+  }
+
+  def sortPathsByCost(paths: Seq[Seq[Hop]]): Seq[Seq[Hop]] = {
+    paths.sortBy(x => x.foldLeft(0){_ + _.cost})
   }
 }

@@ -80,4 +80,18 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
       )
     }
   }
+
+  "Calling sortPathsByCost" should {
+    "return sorted by cost" in {
+      JourneyPlanner.sortPathsByCost(Seq(
+        Seq(Hop(munich, nuremberg, ice726, 1), Hop(nuremberg, frankfurt, ice726, 2), Hop(frankfurt, cologne, ice724, 3)),
+        Seq(Hop(munich, nuremberg, ice726, 0), Hop(nuremberg, frankfurt, ice724, 0), Hop(frankfurt, cologne, ice724, 1)),
+        Seq(Hop(munich, nuremberg, ice724, 9), Hop(nuremberg, frankfurt, ice724, 9), Hop(frankfurt, cologne, ice724, 9)))
+      ) shouldBe Seq(
+        Seq(Hop(munich, nuremberg, ice726, 0), Hop(nuremberg, frankfurt, ice724, 0), Hop(frankfurt, cologne, ice724, 1)),
+        Seq(Hop(munich, nuremberg, ice726, 1), Hop(nuremberg, frankfurt, ice726, 2), Hop(frankfurt, cologne, ice724, 3)),
+        Seq(Hop(munich, nuremberg, ice724, 9), Hop(nuremberg, frankfurt, ice724, 9), Hop(frankfurt, cologne, ice724, 9))
+      )
+    }
+  }
 }
