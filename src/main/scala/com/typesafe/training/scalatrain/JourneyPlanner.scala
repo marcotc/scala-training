@@ -45,17 +45,11 @@ class JourneyPlanner(trains: Set[Train]) {
 //    connection(hop.to, hop.arrivalTime).map { h => pathsBetweenHops(h).map{ _.+:(hop)} }
 //  }
 
-  def paths(endStation: Station, start: Station, departureTime: Time): Set[Seq[Hop]] = {
+  def paths(start: Station, endStation: Station, departureTime: Time): Set[Seq[Hop]] = {
     connections(start, departureTime).flatMap { hop: Hop =>
       hop match {
-        case Hop(from, `endStation`, _) => {
-          println(s"found end from:$from to:$endStation")
-          Set(Seq(hop)) :Set[Seq[Hop]]
-        }
-        case Hop(from, to, _) => {
-          println(s"from:$from to:$to")
-          paths(endStation, hop.to, hop.arrivalTime).map(Seq(Hop(hop.from,hop.to,hop.train)) ++ _) :Set[Seq[Hop]]
-        }
+        case Hop(from, `endStation`, _) => Set(Seq(hop))
+        case Hop(from, to, _) => paths(hop.to, endStation, hop.arrivalTime).map(Hop(hop.from,hop.to,hop.train) +: _)
       }
     }
   }

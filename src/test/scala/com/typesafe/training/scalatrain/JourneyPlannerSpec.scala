@@ -50,7 +50,7 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
 
   "Calling paths" should {
     "return" in {
-      planner.paths(frankfurt, munich, ice726MunichTime) shouldBe true
+      planner.paths(munich, cologne, ice726MunichTime) shouldBe true
     }
   }
 }
