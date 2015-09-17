@@ -4,6 +4,8 @@
 
 package com.typesafe.training.scalatrain
 
+import org.joda.time
+
 import scala.collection.immutable.Seq
 import com.github.nscala_time.time.Imports._
 
@@ -25,6 +27,10 @@ case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station)], excep
     sorted.zip(sorted.drop(1)).map{
       case ((_, station1), (_, station2)) => Hop(station1, station2, this)
     }
+  }
+
+  def getSchedule(date: LocalDateTime): Option[(LocalDateTime, Station)] = {
+    schedule.find(_._1.getDayOfWeek == date.getDayOfWeek)
   }
 }
 
