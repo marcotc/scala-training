@@ -37,14 +37,6 @@ class JourneyPlanner(trains: Set[Train]) {
     hopsFromStations.getOrElse(station, Set.empty).filter(_.departureTime >= departureTime)
   }
 
-//  def pathsBetween(from: Station, to: Station, depatureTime: Time):  = {
-//    connection(from, depatureTime)
-//  }
-//
-//  def pathsBetweenHops(hop: Hop): Seq[Seq[Hop]] = {
-//    connection(hop.to, hop.arrivalTime).map { h => pathsBetweenHops(h).map{ _.+:(hop)} }
-//  }
-
   def paths(start: Station, endStation: Station, departureTime: Time): Set[Seq[Hop]] = {
     connections(start, departureTime).flatMap { hop: Hop =>
       hop match {
