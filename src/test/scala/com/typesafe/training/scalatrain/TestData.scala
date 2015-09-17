@@ -4,7 +4,12 @@
 
 package com.typesafe.training.scalatrain
 
+import com.github.nscala_time.time.Imports._
+
 object TestData {
+  def Time(hours: Int, minutes:Int): LocalDateTime = {
+    new LocalDateTime(2015,1,1,hours,minutes)
+  }
 
   val munich = Station("Munich")
 
@@ -18,7 +23,7 @@ object TestData {
 
   val ice724MunichTime = Time(8, 50)
 
-  val ice724NurembergTime = Time(10)
+  val ice724NurembergTime = Time(10,0)
 
   val ice724FrankfurtTime = Time(12, 10)
 
@@ -26,7 +31,7 @@ object TestData {
 
   val ice726MunichTime = Time(7, 50)
 
-  val ice726NurembergTime = Time(9)
+  val ice726NurembergTime = Time(9,0)
 
   val ice726FrankfurtTime = Time(11, 10)
 

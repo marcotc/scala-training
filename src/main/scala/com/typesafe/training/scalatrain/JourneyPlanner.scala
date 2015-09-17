@@ -4,6 +4,8 @@
 
 package com.typesafe.training.scalatrain
 
+import com.github.nscala_time.time.Imports._
+
 class JourneyPlanner(trains: Set[Train]) {
 
   val stations: Set[Station] =
@@ -14,7 +16,7 @@ class JourneyPlanner(trains: Set[Train]) {
     // Could also be expressed in short notation: trains filter (_.stations contains station)
     trains.filter(train => train.stations.contains(station))
 
-  def stopsAt(station: Station): Set[(Time, Train)] =
+  def stopsAt(station: Station): Set[(LocalDateTime, Train)] =
     for {
       train <- trains
       time <- train.timeAt(station)
@@ -33,11 +35,11 @@ class JourneyPlanner(trains: Set[Train]) {
     trains.flatMap(_.hops).groupBy(_.from)
   }
 
-  def connections(station: Station, departureTime: Time): Set[Hop] = {
+  def connections(station: Station, departureTime: LocalDateTime): Set[Hop] = {
     hopsFromStations.getOrElse(station, Set.empty).filter(_.departureTime >= departureTime)
   }
 
-  def paths(start: Station, endStation: Station, departureTime: Time): Set[Seq[Hop]] = {
+  def paths(start: Station, endStation: Station, departureTime: LocalDateTime): Set[Seq[Hop]] = {
     connections(start, departureTime).flatMap { hop: Hop =>
       hop match {
         case Hop(from, `endStation`, _, _) => Set(Seq(hop))
@@ -48,11 +50,11 @@ class JourneyPlanner(trains: Set[Train]) {
 }
 
 object JourneyPlanner {
-  def sortPathsByTime(paths: Seq[Seq[Hop]]): Seq[Seq[Hop]] = {
-    paths.sortBy(x => x.last.arrivalTime - x.head.departureTime)
-  }
+  def sortPathsByTime(paths: Seq[Seq[Hop]]): Seq[Seq[Hop]] =
+    paths.sortBy(x => Period.fieldDifference(x.head.departureTime, x.last.arrivalTime).getMillis)
 
-  def sortPathsByCost(paths: Seq[Seq[Hop]]): Seq[Seq[Hop]] = {
+
+  def sortPathsByCost(paths: Seq[Seq[Hop]]): Seq[Seq[Hop]] =
     paths.sortBy(x => x.foldLeft(0){_ + _.cost})
-  }
+
 }

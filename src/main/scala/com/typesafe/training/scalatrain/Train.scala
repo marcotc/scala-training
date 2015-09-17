@@ -5,8 +5,10 @@
 package com.typesafe.training.scalatrain
 
 import scala.collection.immutable.Seq
+import com.github.nscala_time.time.Imports._
 
-case class Train(info: TrainInfo, schedule: Seq[(Time, Station)]) {
+
+case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station)], exceptions: Seq[(LocalDateTime, Station)] = Nil) {
   require(schedule.size >= 2, "schedule must contain at least two elements")
   // TODO Verify that `schedule` is strictly increasing in time
 
@@ -14,7 +16,7 @@ case class Train(info: TrainInfo, schedule: Seq[(Time, Station)]) {
     // Could also be expressed in short notation: schedule map (_._2)
     schedule.map(stop => stop._2)
 
-  def timeAt(station: Station): Option[Time] =
+  def timeAt(station: Station): Option[LocalDateTime] =
     // Could also be expressed in notation: schedule find (_._2 == station) map (_._1)
     schedule.find(stop => stop._2 == station).map(found => found._1)
 

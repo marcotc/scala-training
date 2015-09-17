@@ -10,6 +10,7 @@ scalaVersion := Version.scala
 resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
 
 libraryDependencies ++= Dependencies.scalaTrain
+libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.2.0"
 
 scalacOptions ++= List(
   "-unchecked",
