@@ -46,4 +46,10 @@ class TrainSpec extends WordSpec with Matchers {
       ice726.hops(ice724MunichTime.toLocalDate) shouldEqual Vector(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt,ice726), Hop(frankfurt, essen, ice726))
     }
   }
+
+  "getSchedule" should {
+    "return schedule" in {
+      ice726.getSchedule(ice726CologneTime) should not equal None
+    }
+  }
 }
