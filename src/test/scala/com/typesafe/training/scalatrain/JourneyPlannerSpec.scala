@@ -44,13 +44,26 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
 
   "Calling hopsFromStations" should {
     "return" in {
-      planner.hopsFromStations shouldBe true
+      planner.hopsFromStations shouldBe
+        Map(munich -> Set(Hop(munich,nuremberg,ice726), Hop(munich,nuremberg,ice724)),
+          frankfurt -> Set(Hop(frankfurt,cologne,ice724), Hop(frankfurt,essen,ice726)),
+          nuremberg -> Set(Hop(nuremberg,frankfurt,ice726), Hop(nuremberg,frankfurt,ice724)))
     }
   }
 
   "Calling paths" should {
-    "return" in {
-      planner.paths(munich, cologne, ice726MunichTime) shouldBe true
+    "return paths to Cologne" in {
+      planner.paths(munich, cologne, ice726MunichTime) shouldBe
+        Set(List(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice726), Hop(frankfurt, cologne, ice724)),
+          List(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724)),
+          List(Hop(munich, nuremberg, ice724), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724)))
+    }
+  }
+
+  "Calling paths" should {
+    "return paths to essen" in {
+      planner.paths(munich, essen, ice726MunichTime) shouldBe
+        Set(List(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice726), Hop(frankfurt, essen, ice726)))
     }
   }
 }
