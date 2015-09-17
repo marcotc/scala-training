@@ -43,7 +43,7 @@ class TrainSpec extends WordSpec with Matchers {
 
   "hops" should {
     "return" in {
-      ice726.hops shouldEqual Vector(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt,ice726), Hop(frankfurt, essen, ice726))
+      ice726.hops(ice724MunichTime.toLocalDate) shouldEqual Vector(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt,ice726), Hop(frankfurt, essen, ice726))
     }
   }
 }

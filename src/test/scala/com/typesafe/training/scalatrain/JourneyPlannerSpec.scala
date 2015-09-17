@@ -44,7 +44,7 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
 
   "Calling hopsFromStations" should {
     "return" in {
-      planner.hopsFromStations shouldBe
+      planner.hopsFromStations(ice724MunichTime.toLocalDate) shouldBe
         Map(munich -> Set(Hop(munich,nuremberg,ice726), Hop(munich,nuremberg,ice724)),
           frankfurt -> Set(Hop(frankfurt,cologne,ice724), Hop(frankfurt,essen,ice726)),
           nuremberg -> Set(Hop(nuremberg,frankfurt,ice726), Hop(nuremberg,frankfurt,ice724)))

@@ -31,12 +31,12 @@ class JourneyPlanner(trains: Set[Train]) {
       }
     )
 
-  def hopsFromStations: Map[Station, Set[Hop]] = {
-    trains.flatMap(_.hops).groupBy(_.from)
+  def hopsFromStations(date: LocalDate): Map[Station, Set[Hop]] = {
+    trains.flatMap(_.hops(date)).groupBy(_.from)
   }
 
   def connections(station: Station, departureTime: LocalDateTime): Set[Hop] = {
-    hopsFromStations.getOrElse(station, Set.empty).filter(_.departureTime >= departureTime)
+    hopsFromStations(departureTime.toLocalDate()).getOrElse(station, Set.empty).filter(_.departureTime >= departureTime)
   }
 
   def paths(start: Station, endStation: Station, departureTime: LocalDateTime): Set[Seq[Hop]] = {

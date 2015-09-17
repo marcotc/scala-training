@@ -8,7 +8,7 @@ import com.github.nscala_time.time.Imports._
 
 object TestData {
   def Time(hours: Int, minutes:Int): LocalDateTime = {
-    new LocalDateTime(2015,1,1,hours,minutes)
+    new LocalDateTime(LocalDateTime.now().getYear, LocalDateTime.now().getMonthOfYear, LocalDateTime.now().getDayOfMonth, hours, minutes)
   }
 
   val munich = Station("Munich")
