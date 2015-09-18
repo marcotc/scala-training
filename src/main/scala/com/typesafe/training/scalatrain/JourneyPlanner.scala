@@ -31,6 +31,20 @@ class JourneyPlanner(trains: Set[Train]) {
       }
     )
 
+  def nextMaintenance(train: Train): LocalDate = {
+    val maxLength = 100000
+    val maxTime = 1 year
+
+    var date = train.lastMaintenance
+    var distance = 0
+    while (distance < maxLength && date.isBefore(train.lastMaintenance.plus(maxTime))) {
+      distance += train.hops(date).foldLeft(0){_ + _.length}
+      date = date.plusDays(1)
+    }
+
+    date
+  }
+
   def hopsFromStations(date: LocalDate): Map[Station, Set[Hop]] = {
     trains.flatMap(_.hops(date)).groupBy(_.from)
   }
