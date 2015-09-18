@@ -35,7 +35,7 @@ class JourneyPlanner(trains: Set[Train]) {
     trains.flatMap(_.hops(date)).groupBy(_.from)
   }
 
-  def connections(station: Station, departureTime: LocalDateTime): Set[Hop] = {
+  def connections(station: Station, departureTime: LocalDateTime = LocalDateTime.now()): Set[Hop] = {
     hopsFromStations(departureTime.toLocalDate()).getOrElse(station, Set.empty).filter(_.departureTime >= departureTime)
   }
 
