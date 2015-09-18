@@ -5,6 +5,9 @@
 package com.typesafe.training.scalatrain
 
 import com.github.nscala_time.time.Imports._
+import org.joda.time.LocalDateTime
+
+import scala.collection.immutable.Seq
 
 object TestData {
   def Time(hours: Int, minutes:Int): LocalDateTime = {
@@ -35,73 +38,48 @@ object TestData {
 
   val ice726FrankfurtTime = Time(11, 10)
 
-  val ice726CologneTime = Time(13, 2)
+  val ice726EssenTime = Time(13, 2)
+
+  val distances = Map(
+    Set(munich, nuremberg) -> 100,
+    Set(nuremberg, frankfurt) -> 200,
+    Set(frankfurt, cologne) -> 400,
+    Set(frankfurt, essen) -> 800
+  )
+
+  def sched(schedule: Seq[(LocalDateTime, Station, Int)], dayOfWeek: Seq[Int]): Seq[(LocalDateTime, Station, Int)] = {
+    dayOfWeek.flatMap(d => schedule.map(t => t.copy(_1 = t._1.plusDays(d))))
+  }
+
+  val ice724MunichCost = 10
+  val ice724NurembergCost = 20
+  val ice724FrankfurtCost = 40
 
   val ice724 = Train(
     InterCityExpress(724),
-    Vector(
-      ice724MunichTime -> munich,
-      ice724NurembergTime -> nuremberg,
-      ice724FrankfurtTime -> frankfurt,
-      ice724CologneTime -> cologne,
-      ice724MunichTime.plusDays(1) -> munich,
-      ice724NurembergTime.plusDays(1) -> nuremberg,
-      ice724FrankfurtTime.plusDays(1) -> frankfurt,
-      ice724CologneTime.plusDays(1) -> cologne,
-      ice724MunichTime.plusDays(2) -> munich,
-      ice724NurembergTime.plusDays(2) -> nuremberg,
-      ice724FrankfurtTime.plusDays(2) -> frankfurt,
-      ice724CologneTime.plusDays(2) -> cologne,
-      ice724MunichTime.plusDays(3) -> munich,
-      ice724NurembergTime.plusDays(3) -> nuremberg,
-      ice724FrankfurtTime.plusDays(3) -> frankfurt,
-      ice724CologneTime.plusDays(3) -> cologne,
-      ice724MunichTime.plusDays(4) -> munich,
-      ice724NurembergTime.plusDays(4) -> nuremberg,
-      ice724FrankfurtTime.plusDays(4) -> frankfurt,
-      ice724CologneTime.plusDays(4) -> cologne,
-      ice724MunichTime.plusDays(5) -> munich,
-      ice724NurembergTime.plusDays(5) -> nuremberg,
-      ice724FrankfurtTime.plusDays(5) -> frankfurt,
-      ice724CologneTime.plusDays(5) -> cologne,
-      ice724MunichTime.plusDays(6) -> munich,
-      ice724NurembergTime.plusDays(6) -> nuremberg,
-      ice724FrankfurtTime.plusDays(6) -> frankfurt,
-      ice724CologneTime.plusDays(6) -> cologne
+    sched(
+      Seq(
+        (ice724MunichTime, munich, ice724MunichCost),
+        (ice724NurembergTime, nuremberg, ice724NurembergCost),
+        (ice724FrankfurtTime, frankfurt, ice724FrankfurtCost),
+        (ice724CologneTime, cologne, 0)),
+      Seq(0, 1, 2, 3, 4, 5, 6)
     )
   )
 
+  val ice726MunichCost = 30
+  val ice726NurembergCost = 10
+  val ice726FrankfurtCost = 35
+
   val ice726 = Train(
     InterCityExpress(726),
-    Vector(
-      ice726MunichTime -> munich,
-      ice726NurembergTime -> nuremberg,
-      ice726FrankfurtTime -> frankfurt,
-      ice726CologneTime -> essen,
-      ice726MunichTime.plusDays(1) -> munich,
-      ice726NurembergTime.plusDays(1) -> nuremberg,
-      ice726FrankfurtTime.plusDays(1) -> frankfurt,
-      ice726CologneTime.plusDays(1) -> essen,
-      ice726MunichTime.plusDays(2) -> munich,
-      ice726NurembergTime.plusDays(2) -> nuremberg,
-      ice726FrankfurtTime.plusDays(2) -> frankfurt,
-      ice726CologneTime.plusDays(2) -> essen,
-      ice726MunichTime.plusDays(3) -> munich,
-      ice726NurembergTime.plusDays(3) -> nuremberg,
-      ice726FrankfurtTime.plusDays(3) -> frankfurt,
-      ice726CologneTime.plusDays(3) -> essen,
-      ice726MunichTime.plusDays(4) -> munich,
-      ice726NurembergTime.plusDays(4) -> nuremberg,
-      ice726FrankfurtTime.plusDays(4) -> frankfurt,
-      ice726CologneTime.plusDays(4) -> essen,
-      ice726MunichTime.plusDays(5) -> munich,
-      ice726NurembergTime.plusDays(5) -> nuremberg,
-      ice726FrankfurtTime.plusDays(5) -> frankfurt,
-      ice726CologneTime.plusDays(5) -> essen,
-      ice726MunichTime.plusDays(6) -> munich,
-      ice726NurembergTime.plusDays(6) -> nuremberg,
-      ice726FrankfurtTime.plusDays(6) -> frankfurt,
-      ice726CologneTime.plusDays(6) -> essen
+    sched(
+      Seq(
+        (ice726MunichTime, munich, ice726MunichCost),
+        (ice726NurembergTime, nuremberg, ice726NurembergCost),
+        (ice726FrankfurtTime, frankfurt, ice726FrankfurtCost),
+        (ice726EssenTime, essen, 0)),
+      Seq(0, 1, 2, 3, 4, 5, 6)
     )
   )
 

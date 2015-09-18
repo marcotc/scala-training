@@ -8,5 +8,5 @@ case class Hop(from: Station, to: Station, train: Train, cost: Int = 0, length: 
 
   def arrivalTime: LocalDateTime = train.timeAt(to).get
 
-  override def toString(): String = s"($from,$to,${train.info.number})"
+  override def toString(): String = s"($from,$to,$cost,$length,${train.info.number})"
 }

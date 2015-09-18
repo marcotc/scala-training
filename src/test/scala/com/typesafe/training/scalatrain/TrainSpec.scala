@@ -31,7 +31,7 @@ class TrainSpec extends WordSpec with Matchers {
   "Creating a Train" should {
     "throw an IllegalArgumentException for a schedule with 0 or 1 elements" in {
       an[IAE] should be thrownBy Train(InterCityExpress(724), Vector())
-      an[IAE] should be thrownBy Train(InterCityExpress(724), Vector(ice724MunichTime -> munich))
+      an[IAE] should be thrownBy Train(InterCityExpress(724), Vector((ice724MunichTime, munich, 10)))
     }
   }
 
@@ -43,13 +43,13 @@ class TrainSpec extends WordSpec with Matchers {
 
   "hops" should {
     "return" in {
-      ice726.hops(ice724MunichTime.toLocalDate) shouldEqual Vector(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt,ice726), Hop(frankfurt, essen, ice726))
+      ice726.hops(ice724MunichTime.toLocalDate) shouldEqual Vector(Hop(munich, nuremberg, ice726, ice726MunichCost), Hop(nuremberg, frankfurt,ice726, ice726NurembergCost), Hop(frankfurt, essen, ice726, ice726FrankfurtCost))
     }
   }
 
   "getSchedule" should {
     "return schedule" in {
-      ice726.getSchedule(ice726CologneTime) should not equal None
+      ice726.getSchedule(ice726EssenTime) should not equal None
     }
   }
 }

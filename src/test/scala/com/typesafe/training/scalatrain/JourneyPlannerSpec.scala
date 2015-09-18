@@ -45,25 +45,25 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
   "Calling hopsFromStations" should {
     "return" in {
       planner.hopsFromStations(ice724MunichTime.toLocalDate) shouldBe
-        Map(munich -> Set(Hop(munich,nuremberg,ice726), Hop(munich,nuremberg,ice724)),
-          frankfurt -> Set(Hop(frankfurt,cologne,ice724), Hop(frankfurt,essen,ice726)),
-          nuremberg -> Set(Hop(nuremberg,frankfurt,ice726), Hop(nuremberg,frankfurt,ice724)))
+        Map(munich -> Set(Hop(munich,nuremberg,ice726, ice726MunichCost), Hop(munich,nuremberg,ice724, ice724MunichCost)),
+          frankfurt -> Set(Hop(frankfurt,cologne,ice724, ice724FrankfurtCost), Hop(frankfurt,essen,ice726, ice726FrankfurtCost)),
+          nuremberg -> Set(Hop(nuremberg,frankfurt,ice726, ice726NurembergCost), Hop(nuremberg,frankfurt,ice724, ice724NurembergCost)))
     }
   }
 
   "Calling paths" should {
     "return paths to Cologne" in {
       planner.paths(munich, cologne, ice726MunichTime) shouldBe
-        Set(List(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice726), Hop(frankfurt, cologne, ice724)),
-          List(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724)),
-          List(Hop(munich, nuremberg, ice724), Hop(nuremberg, frankfurt, ice724), Hop(frankfurt, cologne, ice724)))
+        Set(List(Hop(munich, nuremberg, ice726, ice726MunichCost), Hop(nuremberg, frankfurt, ice726, ice726NurembergCost), Hop(frankfurt, cologne, ice724, ice724FrankfurtCost)),
+          List(Hop(munich, nuremberg, ice726, ice726MunichCost), Hop(nuremberg, frankfurt, ice724, ice724NurembergCost), Hop(frankfurt, cologne, ice724, ice724FrankfurtCost)),
+          List(Hop(munich, nuremberg, ice724, ice724MunichCost), Hop(nuremberg, frankfurt, ice724, ice724NurembergCost), Hop(frankfurt, cologne, ice724, ice724FrankfurtCost)))
     }
   }
 
   "Calling paths" should {
     "return paths to essen" in {
       planner.paths(munich, essen, ice726MunichTime) shouldBe
-        Set(List(Hop(munich, nuremberg, ice726), Hop(nuremberg, frankfurt, ice726), Hop(frankfurt, essen, ice726)))
+        Set(List(Hop(munich, nuremberg, ice726, ice726MunichCost), Hop(nuremberg, frankfurt, ice726, ice726NurembergCost), Hop(frankfurt, essen, ice726, ice726FrankfurtCost)))
     }
   }
 
@@ -92,6 +92,12 @@ class JourneyPlannerSpec extends WordSpec with Matchers {
         Seq(Hop(munich, nuremberg, ice726, 1), Hop(nuremberg, frankfurt, ice726, 2), Hop(frankfurt, cologne, ice724, 3)),
         Seq(Hop(munich, nuremberg, ice724, 9), Hop(nuremberg, frankfurt, ice724, 9), Hop(frankfurt, cologne, ice724, 9))
       )
+    }
+  }
+
+  "Calling nextMaintenance" should {
+    "return the correct nextMaintenance" in {
+      //planner.nextMaintenance(ice724) shouldEqual Set(ice724, ice726)
     }
   }
 }

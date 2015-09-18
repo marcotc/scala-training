@@ -57,7 +57,7 @@ class JourneyPlanner(trains: Set[Train]) {
     connections(start, departureTime).flatMap { hop: Hop =>
       hop match {
         case Hop(from, `endStation`, _, _, _) => Set(Seq(hop))
-        case Hop(from, to, _, _, _) => paths(hop.to, endStation, hop.arrivalTime).map(Hop(hop.from,hop.to,hop.train) +: _)
+        case Hop(from, to, _, _, _) => paths(hop.to, endStation, hop.arrivalTime).map(Hop(hop.from,hop.to,hop.train, hop.cost, hop.length) +: _)
       }
     }
   }

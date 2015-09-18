@@ -10,7 +10,7 @@ import scala.collection.immutable.Seq
 import com.github.nscala_time.time.Imports._
 
 
-case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station)], exceptions: Seq[LocalDate] = Nil, lastMaintenance: LocalDate = new LocalDate(0)) {
+case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station, Int)], exceptions: Seq[LocalDate] = Nil, lastMaintenance: LocalDate = new LocalDate(0)) {
   require(schedule.size >= 2, "schedule must contain at least two elements")
   // TODO Verify that `schedule` is strictly increasing in time
 
@@ -26,11 +26,11 @@ case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station)], excep
     if (exceptions.contains(date)) return Nil
     val sorted = schedule.sortBy(_._1).filter(s => s._1.toLocalDate.getDayOfWeek == date.getDayOfWeek)
     sorted.zip(sorted.drop(1)).map{
-      case ((_, station1), (_, station2)) => Hop(station1, station2, this)
+      case ((_, station1, cost), (_, station2, _)) => Hop(station1, station2, this, cost)
     }
   }
 
-  def getSchedule(date: LocalDateTime): Option[(LocalDateTime, Station)] = {
+  def getSchedule(date: LocalDateTime): Option[(LocalDateTime, Station, Int)] = {
     schedule.filterNot(date => exceptions.contains(date._1)).find(_._1.getDayOfWeek == date.getDayOfWeek)
   }
 }
