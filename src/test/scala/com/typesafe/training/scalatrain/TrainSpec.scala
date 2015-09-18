@@ -37,7 +37,7 @@ class TrainSpec extends WordSpec with Matchers {
 
   "stations" should {
     "be initialized correctly" in {
-      ice724.stations shouldEqual Vector(munich, nuremberg, frankfurt, cologne)
+      ice724.stations.toSet shouldEqual Set(munich, nuremberg, frankfurt, cologne)
     }
   }
 

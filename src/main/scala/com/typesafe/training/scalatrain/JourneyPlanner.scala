@@ -49,15 +49,15 @@ class JourneyPlanner(trains: Set[Train]) {
     trains.flatMap(_.hops(date)).groupBy(_.from)
   }
 
-  def connections(station: Station, departureTime: LocalDateTime = LocalDateTime.now()): Set[Hop] = {
+  def connections(station: Station, departureTime: LocalDateTime): Set[Hop] = {
     hopsFromStations(departureTime.toLocalDate()).getOrElse(station, Set.empty).filter(_.departureTime >= departureTime)
   }
 
-  def paths(start: Station, endStation: Station, departureTime: LocalDateTime): Set[Seq[Hop]] = {
+  def paths(start: Station, endStation: Station, departureTime: LocalDateTime = LocalDateTime.now()): Set[Seq[Hop]] = {
     connections(start, departureTime).flatMap { hop: Hop =>
       hop match {
-        case Hop(from, `endStation`, _, _) => Set(Seq(hop))
-        case Hop(from, to, _, _) => paths(hop.to, endStation, hop.arrivalTime).map(Hop(hop.from,hop.to,hop.train) +: _)
+        case Hop(from, `endStation`, _, _, _) => Set(Seq(hop))
+        case Hop(from, to, _, _, _) => paths(hop.to, endStation, hop.arrivalTime).map(Hop(hop.from,hop.to,hop.train) +: _)
       }
     }
   }

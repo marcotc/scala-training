@@ -24,7 +24,7 @@ case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station)], excep
 
   def hops(date: LocalDate): Seq[Hop] = {
     if (exceptions.contains(date)) return Nil
-    val sorted = schedule.sortBy(_._1)
+    val sorted = schedule.sortBy(_._1).filter(s => s._1.toLocalDate.getDayOfWeek == date.getDayOfWeek)
     sorted.zip(sorted.drop(1)).map{
       case ((_, station1), (_, station2)) => Hop(station1, station2, this)
     }
