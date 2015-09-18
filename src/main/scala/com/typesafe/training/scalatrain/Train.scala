@@ -10,7 +10,7 @@ import scala.collection.immutable.Seq
 import com.github.nscala_time.time.Imports._
 
 
-case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station)], exceptions: Seq[LocalDate] = Nil) {
+case class Train(info: TrainInfo, schedule: Seq[(LocalDateTime, Station)], exceptions: Seq[LocalDate] = Nil, lastMaintenance: LocalDateTime = new LocalDateTime(0)) {
   require(schedule.size >= 2, "schedule must contain at least two elements")
   // TODO Verify that `schedule` is strictly increasing in time
 
